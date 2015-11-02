@@ -1,6 +1,7 @@
 package dk.jon.lektion2_galgeleg;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +15,15 @@ import android.widget.ImageView;
 
 public class Velkomst_akt extends Activity implements View.OnClickListener, Runnable{
 
-    private Galgelogik gl;
     private Button start;
     private ImageView galgeImg;
     private Handler handler = new Handler();
     private int count;
+    private AnimationSet animation;
+    private boolean countMode;
+
+    static Galgelogik gl;
+    static Animation fadeIn, fadeOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +32,25 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
 
         if(savedInstanceState == null){
             gl = new Galgelogik();
-            start = (Button) findViewById(R.id.startButton);
+            gl.nulstil();
 
+            start = (Button) findViewById(R.id.startButton);
             galgeImg = (ImageView) findViewById(R.id.galgeImageView);
             count = -1;
+            countMode = true;
+
+            animation = new AnimationSet(false);
+            fadeOut = new AlphaAnimation(1, 0);
+            fadeOut.setInterpolator(new AccelerateInterpolator());
+            fadeOut.setDuration(500);
+            animation.addAnimation(fadeOut);
+            fadeIn = new AlphaAnimation(0, 1);
+            fadeIn.setInterpolator(new AccelerateInterpolator());
+            fadeIn.setDuration(500);
+            animation.addAnimation(fadeIn);
+
+            start.setAnimation(animation);
+            start.setOnClickListener(this);
         }
 
         startRunning(500);
@@ -39,8 +59,11 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
 
     @Override
     public void onClick(View v) {
+        handler.removeCallbacks(this);
         if (v==start){
-
+            Intent i = new Intent(this, side2_akt.class);
+            startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
 
@@ -67,15 +90,27 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
                 break;
             case 5:
                 galgeImg.setImageResource(R.drawable.forkert6);
-                count = -2; // reset animation
                 break;
         }
-        count++;
+        count();
         startRunning(500);
     }
 
     // Kører run efter "ms" milisekunder
-    public void startRunning(int ms){
+    public void startRunning(int ms) {
         handler.postDelayed(this, ms);
+    }
+
+    public void count(){
+        if (count<=-1){
+            countMode = true;
+        } else if (count>=5){
+            countMode = false;
+        }
+
+        if (countMode)
+            count++;
+        else
+            count--;
     }
 }
