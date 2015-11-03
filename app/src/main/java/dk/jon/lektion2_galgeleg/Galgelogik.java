@@ -89,11 +89,14 @@ public class Galgelogik {
     }
   }
 
-  public void gætBogstav(String bogstav) {
-    if (bogstav.length() != 1) return;
+  public void gætBogstav(String bogstav) throws Exception{
+    if (bogstav.length() != 1)
+      throw new Exception("Indtast kun ét bogstav");
     System.out.println("Der gættes på bogstavet: " + bogstav);
-    if (brugteBogstaver.contains(bogstav)) return;
-    if (spilletErVundet || spilletErTabt) return;
+    if (brugteBogstaver.contains(bogstav))
+      throw new Exception("Du har gættet på det bogstav før");
+    if (spilletErVundet || spilletErTabt)
+      throw new Exception("Spillet er slut, du kan ikke gætte mere.");
 
     brugteBogstaver.add(bogstav);
 

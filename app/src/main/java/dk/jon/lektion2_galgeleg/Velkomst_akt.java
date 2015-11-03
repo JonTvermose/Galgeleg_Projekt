@@ -19,11 +19,11 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
     private ImageView galgeImg;
     private Handler handler = new Handler();
     private int count;
-    private AnimationSet animation;
     private boolean countMode;
+    private Animation fadeIn, fadeOut;
 
     static Galgelogik gl;
-    static Animation fadeIn, fadeOut;
+    static AnimationSet animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,9 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
 
     @Override
     public void onClick(View v) {
-        handler.removeCallbacks(this);
+        // handler.removeCallbacks(this);
         if (v==start){
+            count = -1;
             Intent i = new Intent(this, side2_akt.class);
             startActivity(i);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

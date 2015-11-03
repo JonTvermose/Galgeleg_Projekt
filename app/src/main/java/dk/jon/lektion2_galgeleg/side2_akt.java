@@ -1,15 +1,18 @@
 package dk.jon.lektion2_galgeleg;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class side2_akt extends Activity implements View.OnClickListener{
+public class side2_akt extends Activity implements View.OnClickListener, View.OnKeyListener{
 
     private ImageView img;
     private EditText editTxt;
@@ -27,11 +30,13 @@ public class side2_akt extends Activity implements View.OnClickListener{
         if(savedInstanceState == null) {
             img = (ImageView) findViewById(R.id.mainImgImageView);
             editTxt = (EditText) findViewById(R.id.bogstavEditText);
+            editTxt.setOnKeyListener(this);
             txt = (TextView) findViewById(R.id.ordTextView);
             bogstaver = (TextView) findViewById(R.id.tidligereGætTextView);
             bString = bogstaver.getText().toString();
             gæt = (Button) findViewById(R.id.gætButton);
             gæt.setOnClickListener(this);
+            gæt.setAnimation(Velkomst_akt.animation);
             antalGæt = -1;
 
             Velkomst_akt.gl.nulstil();
@@ -41,33 +46,43 @@ public class side2_akt extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if (!bogstaver.getText().equals("Du har tabt!") || !bogstaver.getText().equals("Du har vundet!")){
-            String bogstav = editTxt.getText().toString().toLowerCase();
-            if (!Velkomst_akt.gl.getBrugteBogstaver().contains(bogstav)){
-                Velkomst_akt.gl.gætBogstav(bogstav);
+        String bogstav = editTxt.getText().toString().toLowerCase();
+        editTxt.setText(""); // Nulstiller indtastningsfeltet (fjerner bogstav)
 
-                String bogstavGæt = "";
-                for (String s  : Velkomst_akt.gl.getBrugteBogstaver()){
-                    bogstavGæt += s + ", " ;
-                }
-                bogstaver.setText(bString + bogstavGæt);
+        // Gæt på et bogstav og håndter fejlsituationer
+        try {
+            Velkomst_akt.gl.gætBogstav(bogstav);
+        } catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show(); // Viser en lille popup med fejltekst fra Galgelogik
+            return;
+        }
 
-                txt.setText(Velkomst_akt.gl.getSynligtOrd());
-                if (!Velkomst_akt.gl.erSidsteBogstavKorrekt()){
-                    antalGæt++;
-                    updateImg();
-                }
-                if (Velkomst_akt.gl.erSpilletSlut()){
-                    if (Velkomst_akt.gl.erSpilletTabt()){
-                        bogstaver.setText("Du har tabt!");
-                    } else if (Velkomst_akt.gl.erSpilletVundet()){
-                        bogstaver.setText("Du har vundet!");
-                    }
-                }
-            }
+        // Opdater listen af gættede bogstaver
+        String bogstavGæt = "";
+        for (String s  : Velkomst_akt.gl.getBrugteBogstaver()){
+            bogstavGæt += s + ", " ;
+        }
+        bogstaver.setText(bString + bogstavGæt);
+
+        // Opdater det synlige ord
+        txt.setText(Velkomst_akt.gl.getSynligtOrd());
+
+        // Opdater antal gæt + billede
+        if (!Velkomst_akt.gl.erSidsteBogstavKorrekt()){
+            antalGæt++;
+            updateImg();
+        }
+
+        // Tjek om spillet er slut
+        if (Velkomst_akt.gl.erSpilletSlut()){
+            Intent i = new Intent(this, side3_akt.class);
+            startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
         }
     }
 
+    // Opdaterer billedet mht. antal gæt der er brugt
     public void updateImg(){
         switch (antalGæt) {
             case 0:
@@ -92,5 +107,15 @@ public class side2_akt extends Activity implements View.OnClickListener{
                 img.setImageResource(R.drawable.forkert6);
                 break;
         }
+    }
+
+    // Klikker på "Gæt"-knappen når der trykkes på "Enter"-knappen på tastaturet
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            gæt.callOnClick(); // Klikker på "Gæt"-knappen
+            return true;
+        }
+        return false;
     }
 }
