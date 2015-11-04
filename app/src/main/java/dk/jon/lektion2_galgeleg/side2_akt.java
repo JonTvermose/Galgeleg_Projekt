@@ -20,7 +20,6 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
     private TextView bogstaver;
     private String bString;
     private Button gæt;
-    private int antalGæt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,6 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
             gæt = (Button) findViewById(R.id.gætButton);
             gæt.setOnClickListener(this);
             gæt.setAnimation(Velkomst_akt.animation);
-            antalGæt = -1;
 
             Velkomst_akt.gl.nulstil();
             txt.setText(Velkomst_akt.gl.getSynligtOrd());
@@ -49,7 +47,7 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
         String bogstav = editTxt.getText().toString().toLowerCase();
         editTxt.setText(""); // Nulstiller indtastningsfeltet (fjerner bogstav)
 
-        // Gæt på et bogstav og håndter fejlsituationer
+        // Gæt på et bogstav og håndter fejlsituationer (ugyldige gæt)
         try {
             Velkomst_akt.gl.gætBogstav(bogstav);
         } catch (Exception e){
@@ -67,9 +65,8 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
         // Opdater det synlige ord
         txt.setText(Velkomst_akt.gl.getSynligtOrd());
 
-        // Opdater antal gæt + billede
+        // Opdater billede hvis sidste gæt er forkert
         if (!Velkomst_akt.gl.erSidsteBogstavKorrekt()){
-            antalGæt++;
             updateImg();
         }
 
@@ -78,13 +75,13 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
             Intent i = new Intent(this, side3_akt.class);
             startActivity(i);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            finish();
+            finish(); // Slutter aktiviteten så man ikke kan trykke på "tilbage"-knap for at se denne aktivitet
         }
     }
 
     // Opdaterer billedet mht. antal gæt der er brugt
     public void updateImg(){
-        switch (antalGæt) {
+        switch (Velkomst_akt.gl.getAntalForkerteBogstaver()) {
             case 0:
                 img.setImageResource(R.drawable.galge);
                 break;
