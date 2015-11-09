@@ -159,8 +159,7 @@ public class Galgelogik {
     muligeOrd.clear();
     muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
 
-    while (!muligeOrd.isEmpty()){
-      String ord = muligeOrd.remove(0);
+    for(String ord : muligeOrd){
       int lix = beregnOrd(ord);
       if(lix > 0 && lix < 200){
         nemmeOrd.add(ord);
