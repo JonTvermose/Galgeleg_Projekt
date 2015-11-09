@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 public class Velkomst_akt extends Activity implements View.OnClickListener, Runnable{
 
-    private Button start;
+    private Button start, difficult;
     private ImageView galgeImg;
     private Handler handler = new Handler();
     private int count;
@@ -35,6 +35,9 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
         if(savedInstanceState == null){
             gl = new Galgelogik();
             gl.nulstil();
+
+            difficult = (Button) findViewById(R.id.difButton);
+            difficult.setOnClickListener(this);
 
             start = (Button) findViewById(R.id.startButton);
             galgeImg = (ImageView) findViewById(R.id.galgeImageView);
@@ -66,6 +69,10 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
             count = -1;
             Intent i = new Intent(this, side2_akt.class);
             startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else if (v==difficult){
+            Intent difficulty = new Intent(this, Svaerhedsgrad.class);
+            startActivity(difficulty);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
