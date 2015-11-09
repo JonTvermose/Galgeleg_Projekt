@@ -25,6 +25,8 @@ public class Velkomst_akt extends Activity implements View.OnClickListener, Runn
     static Galgelogik gl;
     static AnimationSet animation;
 
+    //Test commit incoming!
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
