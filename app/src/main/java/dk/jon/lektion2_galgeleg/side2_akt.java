@@ -2,6 +2,7 @@ package dk.jon.lektion2_galgeleg;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -37,9 +38,32 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
             gæt.setOnClickListener(this);
             gæt.setAnimation(Velkomst_akt.animation);
 
-            Velkomst_akt.gl.nulstil();
-            txt.setText(Velkomst_akt.gl.getSynligtOrd());
+            //Velkomst_akt.gl.nulstil(); // Fra version 1
+            hentOrd(); // Version 2 vha. asynctask
+
+            txt.setText("");
+            Toast.makeText(this, "Henter tekst fra DR.dk", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void hentOrd(){
+        new AsyncTask(){
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    Velkomst_akt.gl.hentOrdFraDr();
+                    return "Ordene blev hentet!";
+                } catch (Exception e){
+                    return "Der skete en fejl!";
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Object result){
+                txt.setText(Velkomst_akt.gl.getSynligtOrd());
+            }
+        }.execute();
     }
 
     @Override
