@@ -42,7 +42,7 @@ public class side2_akt extends Activity implements View.OnClickListener, View.On
             hentOrd(); // Version 2 vha. asynctask
 
             txt.setText("");
-            Toast.makeText(this, "Henter tekst fra DR.dk", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Henter tekst fra the webz", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -151,7 +151,7 @@ public class Galgelogik {
   }
 
   public void hentOrdFraDr() throws Exception {
-    String data = hentUrl("http://dr.dk");
+    String data = hentUrl("https://da.wikipedia.org/wiki/Danmark");
     System.out.println("data = " + data);
 
     data = data.replaceAll("<.+?>", " ").toLowerCase().replaceAll("[^a-zæøå]", " ");
