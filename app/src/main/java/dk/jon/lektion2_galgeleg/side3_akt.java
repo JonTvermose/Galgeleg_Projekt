@@ -39,7 +39,8 @@ public class side3_akt extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(this, side2_akt.class);
+        Velkomst_akt.gl.saetsvaerhedsgrad(0);
+        Intent i = new Intent(this, Velkomst_akt.class);
         startActivity(i);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();

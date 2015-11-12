@@ -1,6 +1,7 @@
 package dk.jon.lektion2_galgeleg;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,16 +28,16 @@ public class Svaerhedsgrad extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
-                   // Velkomst_akt.gl.saetsvaerhedsgrad(position);
-                  //  Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
+                    Velkomst_akt.gl.saetsvaerhedsgrad(position+1);
+                    Toast.makeText(getBaseContext(), "Sværhedsgrad sat til let ", Toast.LENGTH_SHORT).show();
                     finish();
                 } else if(position==1){
-                    Velkomst_akt.gl.saetsvaerhedsgrad(position);
-                    //Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
+                    Velkomst_akt.gl.saetsvaerhedsgrad(position + 1);
+                    Toast.makeText(getBaseContext(), "Sværhedsgrad sat til middel", Toast.LENGTH_SHORT).show();
                     finish();
-                } else if(position==2){
-                    //Velkomst_akt.gl.saetsvaerhedsgrad(position);
-                    Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
+                } else if(position==2) {
+                    Velkomst_akt.gl.saetsvaerhedsgrad(position + 1);
+                    Toast.makeText(getBaseContext(), "Sværhedsgrad sat til svær", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
