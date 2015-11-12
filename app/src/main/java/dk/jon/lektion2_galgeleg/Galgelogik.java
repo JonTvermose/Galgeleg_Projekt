@@ -78,9 +78,9 @@ public class Galgelogik {
     spilletErVundet = false;
     spilletErTabt = false;
     switch (svaerhedsgrad){
-      case 1: ordet = nemmeOrd.get(new Random().nextInt(muligeOrd.size())); break;
-      case 2: ordet = middelOrd.get(new Random().nextInt(muligeOrd.size())); break;
-      case 3: ordet = svaereOrd.get(new Random().nextInt(muligeOrd.size())); break;
+      case 1: ordet = nemmeOrd.get(new Random().nextInt(nemmeOrd.size())); break;
+      case 2: ordet = middelOrd.get(new Random().nextInt(middelOrd.size())); break;
+      case 3: ordet = svaereOrd.get(new Random().nextInt(svaereOrd.size())); break;
       default: ordet = muligeOrd.get(new Random().nextInt(muligeOrd.size()));
     }
     opdaterSynligtOrd();
@@ -179,7 +179,7 @@ public class Galgelogik {
 
   public void saetsvaerhedsgrad(int i){
     svaerhedsgrad = i;
-    nulstil();
+
   }
 
   private int beregnOrd(String ord) {

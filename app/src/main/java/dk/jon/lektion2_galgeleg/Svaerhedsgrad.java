@@ -28,11 +28,11 @@ public class Svaerhedsgrad extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                    // Velkomst_akt.gl.saetsvaerhedsgrad(position);
-                    Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if(position==1){
-                    //Velkomst_akt.gl.saetsvaerhedsgrad(position);
-                    Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
+                    Velkomst_akt.gl.saetsvaerhedsgrad(position);
+                    //Toast.makeText(getBaseContext(), "Der blev trykket på " + position, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if(position==2){
                     //Velkomst_akt.gl.saetsvaerhedsgrad(position);
